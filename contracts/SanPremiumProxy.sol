@@ -1,9 +1,9 @@
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity ^0.7.0;
 
-import "@openzeppelin/contracts/proxy/TransparentUpgradeableProxy.sol";
+import "./proxy/TransparentUpgradeableProxy.sol";
 
 contract SanPremiumProxy is TransparentUpgradeableProxy {
 
-    constructor(address _logic, address admin_, bytes memory _data) payable TransparentUpgradeableProxy(_logic, admin_, _data) {
+    constructor(address logic_, address admin_, bytes memory data_) payable TransparentUpgradeableProxy(logic_, admin_, data_) {
     }
 }
