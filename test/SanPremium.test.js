@@ -11,8 +11,7 @@ const BigNumber = require('bignumber.js')
 
 contract("SanPremium contracts", async function (accounts) {
     this.owner = accounts[0]
-    this.user1 = accounts[2]
-    this.user2 = accounts[3]
+    this.user = accounts[2]
 
     before("setup contract", async () => {
         this.token = await ERC20.deployed()
@@ -22,6 +21,32 @@ contract("SanPremium contracts", async function (accounts) {
         this.admin = await SanProxyAdmin.deployed()
         this.proxy = await SanPremiumProxy.deployed()
         this.logicV1 = new SanPremiumLogicV1(this.proxy.address)
+
+        const userBalance = await this.token.balanceOf(this.user)
+        if (userBalance.toString() === '0') {
+            // Send 1000 token
+            let amountToken = (new BigNumber("10")).pow(18 + 3);
+            await this.token.transfer(this.user, amountToken, {from: this.owner})
+        }
+
+        const userLp1Balance = await this.lp1.balanceOf(this.user)
+        if (userLp1Balance.toString() === '0') {
+            // Send 100_000 lp1 tokens, which are 10% of the whole pool
+            let amountToken = (new BigNumber("10")).pow(18 + 5);
+            await this.lp1.transfer(this.user, amountToken, {from: this.owner})
+        }
+
+        const userLp2Balance = await this.lp2.balanceOf(this.user)
+        if (userLp2Balance.toString() === '0') {
+            // Send 100_000 lp2 tokens, which are 10% of the whole pool
+            let amountToken = (new BigNumber("10")).pow(18 + 5);
+            await this.lp2.transfer(this.user, amountToken, {from: this.owner})
+        }
+
+        // Token reserve 10_000 token, as user has 10% share so his amount of tokens equals 1_000
+        const tokenReserve = (new BigNumber("10")).pow(18 + 4)
+        this.lp1.setReserves(tokenReserve, 0)
+        this.lp2.setReserves(tokenReserve, 0)
     });
 
     it("SanPremium must be initialized", async () => {
@@ -36,29 +61,13 @@ contract("SanPremium contracts", async function (accounts) {
     })
 
     it("User1 should get access to PRO", async () => {
+        let hasFreeAccess = await this.logicV1.hasAccess(this.user, 0)
     })
 
     it("User2 should get votes", async () => {
-        // Initially user has 0 votes
-        let userVotes = await this.logicV1.votes(this.user2)
-        expect(userVotes.toString()).to.equal('0')
-
-        // Send user 1_000 tokens
-        let amountToken = (new BigNumber("1000")).pow(18);
-        console.log(1)
-        await this.token.transfer(this.user2, amountToken, {from: this.owner})
-        let user2Balance = await this.token.balanceOf(this.user2, {from: this.user2})
-        console.log(2)
-        userVotes = await this.logicV1.votes(this.user2)
-        console.log(3)
-        expect(userVotes.toString()).to.equal(user2Balance.toString())
-        expect(userVotes.toString()).to.equal('0')
-
-        // total supply at liquidity pair is 1_000_000
-        // const reserve = (new BigNumber("100_000")).pow(18)
-        // this.lp1.setReserves(1_000_000, 0)
-
-
-
+        // Check user votes, expected result is 1000 tokens + (1000 lp1 + 1000 lp2) * 2 = 5_000
+        let expectedResult = (new BigNumber("10")).pow(18 + 3).multipliedBy(5).toFixed()
+        let userVotes = await this.logicV1.votes(this.user)
+        expect(userVotes.toString()).to.equal(expectedResult.toString())
     })
 })

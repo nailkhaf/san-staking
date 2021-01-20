@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// solhint-disable-next-line compiler-version
-pragma solidity >=0.4.24 <0.8.0;
-
+pragma solidity ^0.7.0;
 
 /**
  * @dev This is a base contract to aid in writing upgradeable contracts, or any kind of contract that will be deployed
@@ -56,7 +54,7 @@ abstract contract Initializable {
         // under construction or not.
         address self = address(this);
         uint256 cs;
-        // solhint-disable-next-line no-inline-assembly
+
         assembly { cs := extcodesize(self) }
         return cs == 0;
     }
