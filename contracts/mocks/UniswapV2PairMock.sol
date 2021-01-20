@@ -9,8 +9,8 @@ abstract contract UniswapV2PairMock is IUniswapV2Pair, ERC20Mock {
     address private _token0;
     address private _token1;
 
-    uint112 private _reserve0;           // uses single storage slot, accessible via getReserves
-    uint112 private _reserve1;           // uses single storage slot, accessible via getReserves
+    uint112 private _reserve0;
+    uint112 private _reserve1;
 
     constructor(
         address token0_,

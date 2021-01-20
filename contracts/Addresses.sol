@@ -1,7 +1,7 @@
 pragma solidity ^0.7.0;
 
 abstract contract Addresses {
-    address constant tokenAddr = address(0xEA273378e731B2b215432a273A4564Fdf706C846);
-    address constant uniPool1Addr = address(0xbFc909984e8571ffA4e077192680fb56263e4b48);
-    address constant uniPool2Addr = address(0xCF4b7e1604cdf1C22EaB209348d54A6FE3045e57);
+    address constant tokenAddr = address(0xBD49501333f8545e5c769d35E1f317B9722EEa64);
+    address constant uniPool1Addr = address(0x03C35780fBfF99106e408F0372A7a245Cb238b0c);
+    address constant uniPool2Addr = address(0x664E3320a767ddbc3ea34eD6579112DFd7b8E1aa);
 }

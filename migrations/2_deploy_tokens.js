@@ -23,7 +23,7 @@ module.exports = async (deployer, network, accounts) => {
         }
     )
     await deployer.deploy(
-        UniswapSanBacMock, SanTokenMock.address, EthTokenMock.address, "SAN/BAC", "SAN/BAC", 1_000_000, {
+        UniswapSanBacMock, BacTokenMock.address, SanTokenMock.address, "SAN/BAC", "SAN/BAC", 1_000_000, {
             from: owner,
             overwrite: false
         }
@@ -39,5 +39,6 @@ abstract contract Addresses {
     address constant tokenAddr = address(${token});
     address constant uniPool1Addr = address(${pool1});
     address constant uniPool2Addr = address(${pool2});
-}`
+}
+`
 }

@@ -11,7 +11,7 @@ contract SanPremiumLogicV1 is Ownable, Initializable, Addresses {
     using SafeMath for uint256;
 
     uint256 constant LOGIC_VERSION = 1;
-    uint256 constant public VOTES_UNISWAP_MULTIPLIER = 1;
+    uint256 constant VOTES_UNISWAP_MULTIPLIER = 1;
 
     IERC20 constant public token = IERC20(tokenAddr);
     IUniswapV2Pair constant public lp1 = IUniswapV2Pair(uniPool1Addr);
@@ -26,7 +26,7 @@ contract SanPremiumLogicV1 is Ownable, Initializable, Addresses {
     mapping(uint256 => Product) public products; // productId => Product
 
     function initialize(address _owner) public initializer {
-        require(lp1.token0() == address(token) && lp2.token0() == address(token), "SanPremiumLogicV1: Incorrect configuration token and liquidity pools");
+        require(getTokenIndex(lp1) != -1  && getTokenIndex(lp2) != -1, "SanPremiumLogicV1: Incorrect configuration token and liquidity pools");
         require(_owner != address(0), "SanPremiumLogicV1: Owner is the zero address");
         initializeOwner(_owner);
     }
@@ -61,13 +61,26 @@ contract SanPremiumLogicV1 is Ownable, Initializable, Addresses {
         return userBalance.add(tokenAmount1.add(tokenAmount2).mul(VOTES_UNISWAP_MULTIPLIER));
     }
 
-    function version() public view returns (uint256) {
+    function version() public pure returns (uint256) {
         return LOGIC_VERSION;
     }
 
+    function getTokenIndex(IUniswapV2Pair lp) private view returns (int8) {
+        if (lp.token0() == address(token)) {
+            return 0;
+        } else if (lp.token1() == address(token)) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
     function getReserve(IUniswapV2Pair lp) private view returns (uint256) {
-        (uint256 reserve1,,) = lp.getReserves();
-        return reserve1;
+        int8 index = getTokenIndex(lp);
+        require(index >= 0, "SanPremiumLogicV1: token isn't found in pool");
+
+        (uint256 reserve0, uint256 reserve1,) = lp.getReserves();
+        return index == 0 ? reserve0 : reserve1;
     }
 
     function computeLiquidityValue(

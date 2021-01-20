@@ -24,7 +24,7 @@ contract("SanPremium contracts", async function (accounts) {
         await this.sanBacPool.transfer(this.user, ethToWei(100_000), {from: this.owner}) // 10% of the whole pool
 
         await this.sanEthPool.setReserves(ethToWei(10_000), 0) // user owns 10% from 10k
-        await this.sanBacPool.setReserves(ethToWei(20_000), 0) // user owns 10% from 20k
+        await this.sanBacPool.setReserves(0, ethToWei(20_000)) // user owns 10% from 20k
     }
 
     before("setup contract", async () => {
