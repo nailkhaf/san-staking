@@ -6,11 +6,11 @@ import "./interfaces/IUniswapV2Pair.sol";
 import "./proxy/Initializable.sol";
 import "./libraries/Ownable.sol";
 
-contract SanPremiumLogicV1 is Ownable, Initializable {
+contract SanPremiumLogicV2 is Ownable, Initializable {
     using SafeMath for uint256;
 
-    uint256 constant LOGIC_VERSION = 1;
-    uint256 constant public VOTES_UNISWAP_MULTIPLIER = 1;
+    uint256 constant LOGIC_VERSION = 2;
+    uint256 constant public VOTES_UNISWAP_MULTIPLIER = 2;
 
     IERC20 constant public token = IERC20(address(0xd2c77A5bDf19038f12F525c309d0Baa5692aD05a));
     IUniswapV2Pair constant public lp1 = IUniswapV2Pair(address(0x55Fc1bdf6D8505202dd32fD8018Eba5E1B580855));
@@ -25,8 +25,8 @@ contract SanPremiumLogicV1 is Ownable, Initializable {
     mapping(uint256 => Product) public products; // productId => Product
 
     function initialize(address _owner) public initializer {
-        require(lp1.token0() == address(token) && lp2.token0() == address(token), "SanPremiumLogicV1: Incorrect configuration token and liquidity pools");
-        require(_owner != address(0), "SanPremiumLogicV1: Owner is the zero address");
+        require(lp1.token0() == address(token) && lp2.token0() == address(token), "SanPremiumLogicV2: Incorrect configuration token and liquidity pools");
+        require(_owner != address(0), "SanPremiumLogicV2: Owner is the zero address");
         initializeOwner(_owner);
     }
 
@@ -43,7 +43,7 @@ contract SanPremiumLogicV1 is Ownable, Initializable {
 
     function hasAccess(address user, uint256 productId) public view returns (bool) {
         Product storage product = products[productId];
-        require(product.exists, "SanPremiumLogicV1: Product doesn't exists");
+        require(product.exists, "SanPremiumLogicV2: Product doesn't exists");
 
         uint256 tokenAmount1 = computeLiquidityValue(getReserve(lp1), lp1.totalSupply(), lp1.balanceOf(user));
         uint256 tokenAmount2 = computeLiquidityValue(getReserve(lp2), lp2.totalSupply(), lp2.balanceOf(user));

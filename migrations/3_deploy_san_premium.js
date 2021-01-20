@@ -1,4 +1,5 @@
 const SanPremiumLogicV1 = artifacts.require("SanPremiumLogicV1")
+const SanPremiumLogicV2 = artifacts.require("SanPremiumLogicV2")
 const SanPremiumProxy = artifacts.require("SanPremiumProxy")
 const SanProxyAdmin = artifacts.require("SanProxyAdmin")
 
@@ -7,6 +8,7 @@ module.exports = async (deployer, network, accounts) => {
 
     await deployer.deploy(SanProxyAdmin, {from: owner})
     await deployer.deploy(SanPremiumLogicV1, {from: owner})
+    await deployer.deploy(SanPremiumLogicV2, {from: owner})
 
     const logic = await SanPremiumLogicV1.deployed()
     const initCall = logic.contract.methods["initialize"](owner).encodeABI()

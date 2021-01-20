@@ -1,16 +1,8 @@
 pragma solidity ^0.7.0;
 
-import '../interfaces/IERC20.sol';
-import "./ERC20Mock.sol";
-import "../interfaces/IUniswapV2Pair.sol";
+import "./UniswapV2PairMock.sol";
 
-contract UniswapV2PairMock1 is IUniswapV2Pair, ERC20Mock {
-
-    address private _token0;
-    address private _token1;
-
-    uint112 private _reserve0;           // uses single storage slot, accessible via getReserves
-    uint112 private _reserve1;           // uses single storage slot, accessible via getReserves
+contract UniswapV2PairMock1 is UniswapV2PairMock {
 
     constructor(
         address token0_,
@@ -18,26 +10,6 @@ contract UniswapV2PairMock1 is IUniswapV2Pair, ERC20Mock {
         string memory name,
         string memory symbol,
         uint256 totalSupply
-    ) ERC20Mock(name, symbol, totalSupply) {
-        _token0 = token0_;
-        _token1 = token1_;
-    }
-
-    function setReserves(uint112 reserve0, uint112 reserve1) external {
-        _reserve0 = reserve0;
-        _reserve1 = reserve1;
-    }
-
-    function getReserves() public view override returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast) {
-        reserve0 = _reserve0;
-        reserve1 = _reserve1;
-        blockTimestampLast = 0;
-    }
-
-    function token0() external view override returns (address) {
-        return _token0;
-    }
-    function token1() external view override returns (address) {
-        return _token1;
+    ) UniswapV2PairMock(token0_, token1_, name, symbol, totalSupply) {
     }
 }
