@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "truffle compile",
-    "test-deploy": "npx truffle migrate --network development --f 1 --to 2",
+    "deploy-test": "npx truffle migrate --network development --f 1 --to 2",
     "deploy-tokens-ropsten": "npx truffle migrate --network ropsten --f 2 --to 2",
     "deploy-staking-ropsten": "npx truffle migrate --network ropsten --f 3 --to 3",
     "test": "truffle test --network development"

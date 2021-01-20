@@ -34,8 +34,13 @@ module.exports = async (deployer, network, accounts) => {
 };
 
 function addressesContractTemplate(token, pool1, pool2) {
-    return `pragma solidity ^0.7.0;
+    return `// SPDX-License-Identifier: MIT
 
+pragma solidity >=0.7.0 <0.8.0;
+
+/**
+ * @dev Address constants for dapp
+ */
 abstract contract Addresses {
     address constant tokenAddr = address(${token});
     address constant uniPool1Addr = address(${pool1});

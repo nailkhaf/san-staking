@@ -13,7 +13,7 @@ pragma solidity >=0.7.0 <0.8.0;
  * `onlyOwner`, which can be applied to your functions to restrict their use to
  * the owner.
  */
-abstract contract Ownable is Context {
+abstract contract Ownable {
     address private _owner;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
@@ -21,10 +21,15 @@ abstract contract Ownable is Context {
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor () {
-        address msgSender = msg.sender;
-        _owner = msgSender;
-        emit OwnershipTransferred(address(0), msgSender);
+    constructor() {
+        initializeOwner(msg.sender);
+    }
+
+    // Be careful to invoke this only once
+    // noinspection UnprotectedFunction
+    function initializeOwner(address owner_) internal {
+        _owner = owner_;
+        emit OwnershipTransferred(address(0), owner_);
     }
 
     /**

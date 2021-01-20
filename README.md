@@ -37,7 +37,7 @@ implementation. Owner of the logic contracts is used for access control. Ownersh
 * In another terminal install dependencies:
   > `npm i`
 * Deploy tokens and pools:
-  > `npm run test-deploy`
+  > `npm run deploy-test`
 * Start test:
   > `npm test`
 
