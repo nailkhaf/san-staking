@@ -3,9 +3,9 @@ const SanPremiumLogicV2 = artifacts.require("SanPremiumLogicV2")
 const SanPremiumProxy = artifacts.require("SanPremiumProxy")
 const SanProxyAdmin = artifacts.require("SanProxyAdmin")
 
-const ERC20 = artifacts.require("ERC20Mock")
-const UniswapV2Pair1 = artifacts.require("UniswapV2PairMock1")
-const UniswapV2Pair2 = artifacts.require("UniswapV2PairMock2")
+const SanTokenMock = artifacts.require("SanTokenMock")
+const UniswapSanEthMock = artifacts.require("UniswapSanEthMock")
+const UniswapSanBacMock = artifacts.require("UniswapSanBacMock")
 
 const expect = require('chai').expect
 
@@ -20,17 +20,17 @@ contract("SanPremium contracts", async function (accounts) {
     }
 
     const grantLpTokens = async () => {
-        await this.lp1.transfer(this.user, ethToWei(100_000), {from: this.owner}) // 10% of the whole pool
-        await this.lp2.transfer(this.user, ethToWei(100_000), {from: this.owner}) // 10% of the whole pool
+        await this.sanEthPool.transfer(this.user, ethToWei(100_000), {from: this.owner}) // 10% of the whole pool
+        await this.sanBacPool.transfer(this.user, ethToWei(100_000), {from: this.owner}) // 10% of the whole pool
 
-        await this.lp1.setReserves(ethToWei(10_000), 0) // user owns 10% from 10k
-        await this.lp2.setReserves(ethToWei(20_000), 0) // user owns 10% from 20k
+        await this.sanEthPool.setReserves(ethToWei(10_000), 0) // user owns 10% from 10k
+        await this.sanBacPool.setReserves(ethToWei(20_000), 0) // user owns 10% from 20k
     }
 
     before("setup contract", async () => {
-        this.token = await ERC20.deployed()
-        this.lp1 = await UniswapV2Pair1.deployed()
-        this.lp2 = await UniswapV2Pair2.deployed()
+        this.token = await SanTokenMock.deployed()
+        this.sanEthPool = await UniswapSanEthMock.deployed()
+        this.sanBacPool = await UniswapSanBacMock.deployed()
 
         this.admin = await SanProxyAdmin.deployed()
         this.proxy = await SanPremiumProxy.deployed()
@@ -41,10 +41,10 @@ contract("SanPremium contracts", async function (accounts) {
 
     afterEach("Drain tokens from user after each test", async () => {
         await drainBalance(this.token, this.user, this.owner);
-        await drainBalance(this.lp1, this.user, this.owner);
-        await drainBalance(this.lp2, this.user, this.owner);
-        await resetReserves(this.lp1)
-        await resetReserves(this.lp2)
+        await drainBalance(this.sanEthPool, this.user, this.owner);
+        await drainBalance(this.sanBacPool, this.user, this.owner);
+        await resetReserves(this.sanEthPool)
+        await resetReserves(this.sanBacPool)
     });
 
     it("Contracts must be correct deployed and initialized", async () => {

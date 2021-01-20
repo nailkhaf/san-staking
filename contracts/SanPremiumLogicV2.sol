@@ -5,16 +5,17 @@ import "./libraries/SafeMath.sol";
 import "./interfaces/IUniswapV2Pair.sol";
 import "./proxy/Initializable.sol";
 import "./libraries/Ownable.sol";
+import "./Addresses.sol";
 
-contract SanPremiumLogicV2 is Ownable, Initializable {
+contract SanPremiumLogicV2 is Ownable, Initializable, Addresses {
     using SafeMath for uint256;
 
     uint256 constant LOGIC_VERSION = 2;
     uint256 constant public VOTES_UNISWAP_MULTIPLIER = 2;
 
-    IERC20 constant public token = IERC20(address(0xd2c77A5bDf19038f12F525c309d0Baa5692aD05a));
-    IUniswapV2Pair constant public lp1 = IUniswapV2Pair(address(0x55Fc1bdf6D8505202dd32fD8018Eba5E1B580855));
-    IUniswapV2Pair constant public lp2 = IUniswapV2Pair(address(0x65a550eF1a5c2b28cA96BA773e5aF4DB23973F82));
+    IERC20 constant public token = IERC20(tokenAddr);
+    IUniswapV2Pair constant public lp1 = IUniswapV2Pair(uniPool1Addr);
+    IUniswapV2Pair constant public lp2 = IUniswapV2Pair(uniPool2Addr);
 
     struct Product {
         bool exists;

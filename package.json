@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "truffle compile",
-    "deploy": "truffle migrate",
+    "test-deploy": "npx truffle migrate --network development --f 1 --to 2",
     "test": "truffle test --network development"
   },
   "keywords": [],

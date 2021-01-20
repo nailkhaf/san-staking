@@ -2,7 +2,7 @@ pragma solidity ^0.7.0;
 
 import "./UniswapV2PairMock.sol";
 
-contract UniswapV2PairMock1 is UniswapV2PairMock {
+contract UniswapSanEthMock is UniswapV2PairMock {
 
     constructor(
         address token0_,

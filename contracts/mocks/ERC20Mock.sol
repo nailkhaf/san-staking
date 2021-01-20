@@ -3,7 +3,7 @@ pragma solidity ^0.7.0;
 import "../interfaces/IERC20.sol";
 import "../libraries/SafeMath.sol";
 
-contract ERC20Mock is IERC20 {
+abstract contract ERC20Mock is IERC20 {
     using SafeMath for uint256;
 
     mapping (address => uint256) private _balances;

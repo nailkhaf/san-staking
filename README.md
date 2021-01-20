@@ -29,3 +29,14 @@ implementation. Owner of the logic contracts is used for access control. Ownersh
 ### Diagram
 
 ![Diagram](./diagram.jpg)
+
+### Local testing
+
+* Launch ganache-cli:
+  > `ganache-cli`
+* In another terminal install dependencies:
+  > `npm i`
+* Deploy tokens and pools:
+  > `npm run test-deploy`
+* Start test:
+  > `npm test`
