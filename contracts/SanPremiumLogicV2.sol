@@ -1,4 +1,6 @@
-pragma solidity ^0.7.0;
+// SPDX-License-Identifier: MIT
+
+pragma solidity >=0.7.0 <0.8.0;
 
 import "./interfaces/IERC20.sol";
 import "./libraries/SafeMath.sol";
@@ -7,7 +9,10 @@ import "./proxy/Initializable.sol";
 import "./libraries/Ownable.sol";
 import "./Addresses.sol";
 
-contract SanPremiumLogicV2 is Ownable, Initializable, Addresses {
+/**
+ * @dev San Staking contract version 2
+ */
+contract SanStakingLogicV2 is Ownable, Initializable, Addresses {
     using SafeMath for uint256;
 
     uint256 constant LOGIC_VERSION = 2;

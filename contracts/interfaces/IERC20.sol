@@ -1,5 +1,10 @@
-pragma solidity ^0.7.0;
+// SPDX-License-Identifier: MIT
 
+pragma solidity >=0.7.0 <0.8.0;
+
+/**
+ * @dev Standard ERC20 interface.
+ */
 interface IERC20 {
     function totalSupply() external view returns (uint256);
     function balanceOf(address account) external view returns (uint256);

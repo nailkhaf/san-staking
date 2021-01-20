@@ -1,9 +1,14 @@
-pragma solidity ^0.7.0;
+// SPDX-License-Identifier: MIT
+
+pragma solidity >=0.7.0 <0.8.0;
 
 import '../interfaces/IERC20.sol';
 import "./ERC20Mock.sol";
 import "../interfaces/IUniswapV2Pair.sol";
 
+/**
+ * @dev Mock implementation of UniswapV2Pair
+ */
 abstract contract UniswapV2PairMock is IUniswapV2Pair, ERC20Mock {
 
     address private _token0;

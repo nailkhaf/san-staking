@@ -1,6 +1,6 @@
-const SanPremiumLogicV1 = artifacts.require("SanPremiumLogicV1")
-const SanPremiumLogicV2 = artifacts.require("SanPremiumLogicV2")
-const SanPremiumProxy = artifacts.require("SanPremiumProxy")
+const SanStakingLogicV1 = artifacts.require("SanStakingLogicV1")
+const SanStakingLogicV2 = artifacts.require("SanStakingLogicV2")
+const SanStakingProxy = artifacts.require("SanStakingProxy")
 const SanProxyAdmin = artifacts.require("SanProxyAdmin")
 
 const SanTokenMock = artifacts.require("SanTokenMock")
@@ -9,7 +9,7 @@ const UniswapSanBacMock = artifacts.require("UniswapSanBacMock")
 
 const expect = require('chai').expect
 
-contract("SanPremium contracts", async function (accounts) {
+contract("SanStaking contracts", async function (accounts) {
     this.owner = accounts[0]
     this.user = accounts[2]
 
@@ -33,10 +33,10 @@ contract("SanPremium contracts", async function (accounts) {
         this.sanBacPool = await UniswapSanBacMock.deployed()
 
         this.admin = await SanProxyAdmin.deployed()
-        this.proxy = await SanPremiumProxy.deployed()
-        this.logicV1 = await SanPremiumLogicV1.deployed()
-        this.logicV2 = await SanPremiumLogicV2.deployed()
-        this.dapp = new SanPremiumLogicV1(this.proxy.address)
+        this.proxy = await SanStakingProxy.deployed()
+        this.logicV1 = await SanStakingLogicV1.deployed()
+        this.logicV2 = await SanStakingLogicV2.deployed()
+        this.dapp = new SanStakingLogicV1(this.proxy.address)
     });
 
     afterEach("Drain tokens from user after each test", async () => {

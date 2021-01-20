@@ -1,4 +1,6 @@
-pragma solidity ^0.7.0;
+// SPDX-License-Identifier: MIT
+
+pragma solidity >=0.7.0 <0.8.0;
 
 import "./interfaces/IERC20.sol";
 import "./libraries/SafeMath.sol";
@@ -7,7 +9,10 @@ import "./proxy/Initializable.sol";
 import "./libraries/Ownable.sol";
 import "./Addresses.sol";
 
-contract SanPremiumLogicV1 is Ownable, Initializable, Addresses {
+/**
+ * @dev San Staking contract version 1
+ */
+contract SanStakingLogicV1 is Ownable, Initializable, Addresses {
     using SafeMath for uint256;
 
     uint256 constant LOGIC_VERSION = 1;
@@ -25,6 +30,9 @@ contract SanPremiumLogicV1 is Ownable, Initializable, Addresses {
 
     mapping(uint256 => Product) public products; // productId => Product
 
+    /**
+     * @dev Upgradeable proxy-constructor
+     */
     function initialize(address _owner) public initializer {
         require(getTokenIndex(lp1) != -1  && getTokenIndex(lp2) != -1, "SanPremiumLogicV1: Incorrect configuration token and liquidity pools");
         require(_owner != address(0), "SanPremiumLogicV1: Owner is the zero address");

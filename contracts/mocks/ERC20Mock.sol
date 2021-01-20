@@ -1,8 +1,13 @@
-pragma solidity ^0.7.0;
+// SPDX-License-Identifier: MIT
+
+pragma solidity >=0.7.0 <0.8.0;
 
 import "../interfaces/IERC20.sol";
 import "../libraries/SafeMath.sol";
 
+/**
+ * @dev Implementation for ERC20
+ */
 abstract contract ERC20Mock is IERC20 {
     using SafeMath for uint256;
 
