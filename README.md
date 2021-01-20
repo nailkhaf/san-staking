@@ -30,6 +30,11 @@ implementation. Owner of the logic contracts is used for access control. Ownersh
 
 ![Diagram](./diagram.jpg)
 
+**Notices:**
+* Differences in LogicV1 and LogicV2 are version number and `VOTES_UNISWAP_MULTIPLIER` from 1 to 2. It's for demonstration
+upgrading process.
+* Most of the time user and owner should interact with `Proxy` contract. Please, open `SanStakingProxy` to try functionality.
+
 ### Local testing
 
 * Launch ganache-cli:
