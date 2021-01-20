@@ -15,12 +15,12 @@ import "./Addresses.sol";
 contract SanStakingLogicV1 is Ownable, Initializable, Addresses {
     using SafeMath for uint256;
 
-    uint256 constant LOGIC_VERSION = 1;
-    uint256 constant VOTES_UNISWAP_MULTIPLIER = 1;
+    uint256 constant private LOGIC_VERSION = 1;
+    uint256 constant private VOTES_UNISWAP_MULTIPLIER = 1;
 
-    IERC20 constant public token = IERC20(tokenAddr);
-    IUniswapV2Pair constant public lp1 = IUniswapV2Pair(uniPool1Addr);
-    IUniswapV2Pair constant public lp2 = IUniswapV2Pair(uniPool2Addr);
+    IERC20 constant public ERC20_TOKEN = IERC20(TOKEN_ADDR);
+    IUniswapV2Pair constant public PAIR_POOL_1 = IUniswapV2Pair(UNI_POOL_1_ADDR);
+    IUniswapV2Pair constant public PAIR_POOL_2 = IUniswapV2Pair(UNI_POOL_2_ADDR);
 
     struct Product {
         bool exists;
@@ -34,8 +34,8 @@ contract SanStakingLogicV1 is Ownable, Initializable, Addresses {
      * @dev Upgradeable proxy-constructor
      */
     function initialize(address _owner) public initializer {
-        require(getTokenIndex(lp1) != -1  && getTokenIndex(lp2) != -1, "SanPremiumLogicV1: Incorrect configuration token and liquidity pools");
-        require(_owner != address(0), "SanPremiumLogicV1: Owner is the zero address");
+        require(getTokenIndex(PAIR_POOL_1) != -1  && getTokenIndex(PAIR_POOL_2) != -1, "SanStakingLogicV1: Incorrect configuration token and liquidity pools");
+        require(_owner != address(0), "SanStakingLogicV1: Owner is the zero address");
         initializeOwner(_owner);
     }
 
@@ -52,19 +52,19 @@ contract SanStakingLogicV1 is Ownable, Initializable, Addresses {
 
     function hasAccess(address user, uint256 productId) public view returns (bool) {
         Product storage product = products[productId];
-        require(product.exists, "SanPremiumLogicV1: Product doesn't exists");
+        require(product.exists, "SanStakingLogicV1: Product doesn't exists");
 
-        uint256 tokenAmount1 = computeLiquidityValue(getReserve(lp1), lp1.totalSupply(), lp1.balanceOf(user));
-        uint256 tokenAmount2 = computeLiquidityValue(getReserve(lp2), lp2.totalSupply(), lp2.balanceOf(user));
+        uint256 tokenAmount1 = computeLiquidityValue(getReserve(PAIR_POOL_1), PAIR_POOL_1.totalSupply(), PAIR_POOL_1.balanceOf(user));
+        uint256 tokenAmount2 = computeLiquidityValue(getReserve(PAIR_POOL_2), PAIR_POOL_2.totalSupply(), PAIR_POOL_2.balanceOf(user));
 
         return tokenAmount1.add(tokenAmount2) >= product.threshold;
     }
 
     function votes(address user) public view returns (uint256) {
-        uint256 tokenAmount1 = computeLiquidityValue(getReserve(lp1), lp1.totalSupply(), lp1.balanceOf(user));
-        uint256 tokenAmount2 = computeLiquidityValue(getReserve(lp2), lp2.totalSupply(), lp2.balanceOf(user));
+        uint256 tokenAmount1 = computeLiquidityValue(getReserve(PAIR_POOL_1), PAIR_POOL_1.totalSupply(), PAIR_POOL_1.balanceOf(user));
+        uint256 tokenAmount2 = computeLiquidityValue(getReserve(PAIR_POOL_2), PAIR_POOL_2.totalSupply(), PAIR_POOL_2.balanceOf(user));
 
-        uint256 userBalance = token.balanceOf(user);
+        uint256 userBalance = ERC20_TOKEN.balanceOf(user);
 
         return userBalance.add(tokenAmount1.add(tokenAmount2).mul(VOTES_UNISWAP_MULTIPLIER));
     }
@@ -74,9 +74,9 @@ contract SanStakingLogicV1 is Ownable, Initializable, Addresses {
     }
 
     function getTokenIndex(IUniswapV2Pair lp) private view returns (int8) {
-        if (lp.token0() == address(token)) {
+        if (lp.token0() == address(ERC20_TOKEN)) {
             return 0;
-        } else if (lp.token1() == address(token)) {
+        } else if (lp.token1() == address(ERC20_TOKEN)) {
             return 1;
         } else {
             return -1;
@@ -85,7 +85,7 @@ contract SanStakingLogicV1 is Ownable, Initializable, Addresses {
 
     function getReserve(IUniswapV2Pair lp) private view returns (uint256) {
         int8 index = getTokenIndex(lp);
-        require(index >= 0, "SanPremiumLogicV1: token isn't found in pool");
+        require(index >= 0, "SanStakingLogicV1: token isn't found in pool");
 
         (uint256 reserve0, uint256 reserve1,) = lp.getReserves();
         return index == 0 ? reserve0 : reserve1;

@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.0 <0.8.0;
 
-import '../interfaces/IERC20.sol';
+import "../interfaces/IERC20.sol";
 import "./ERC20Mock.sol";
 import "../interfaces/IUniswapV2Pair.sol";
 
