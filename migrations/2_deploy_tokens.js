@@ -14,8 +14,8 @@ module.exports = async (deployer, network, accounts) => {
     let owner = accounts[0];
 
     await deployer.deploy(SanTokenMock, 1_000_000_000, {from: owner, overwrite: false})
-    await deployer.deploy(BacTokenMock, 1_000_000_000, {from: owner, overwrite: false})
     await deployer.deploy(EthTokenMock, 1_000_000_000, {from: owner, overwrite: false})
+    await deployer.deploy(BacTokenMock, 1_000_000_000, {from: owner, overwrite: false})
 
     await deployer.deploy(
         UniswapSanEthMock, SanTokenMock.address, EthTokenMock.address, "SAN/ETH", "SAN/ETH", 1_000_000, {
