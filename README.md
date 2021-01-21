@@ -15,6 +15,11 @@ This repository contains smart contracts for ethereum as training task for santi
 4. Initially, the contract logic can be updated by a person, but later we should be able to set up a governance contract 
    which will be managed by voting and which will perform the logic update operations.
 
+##### Notice
+Disadvantage of these requirements that user can withdraw his liquidity tokens at any time. So he can provide and take back 
+liquidity from uniswap pools during the day and get access to paid products. I think in production version better to use 
+farming mechanism with locking tokens for some time.
+
 ### [Proxy Upgrade Pattern](https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies)
 
 I choose approach proxy upgrade pattern, as it has more flexibility and less hardcode for upgrading contracts. 
@@ -32,7 +37,7 @@ implementation. Owner of the logic contracts is used for access control. Ownersh
 
 **Notices:**
 * Differences in LogicV1 and LogicV2 are version number and `VOTES_UNISWAP_MULTIPLIER` from 1 to 2. It's for demonstration
-upgrading process.
+the upgrading process.
 * Most of the time user and owner should interact with `Proxy` contract. Please, open `SanStakingProxy` to try functionality.
 
 ### Local testing
