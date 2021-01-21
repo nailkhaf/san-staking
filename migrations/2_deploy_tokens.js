@@ -41,10 +41,10 @@ pragma solidity >=0.7.0 <0.8.0;
 /**
  * @dev Address constants for dapp
  */
-abstract contract Addresses {
-    address constant tokenAddr = address(${token});
-    address constant uniPool1Addr = address(${pool1});
-    address constant uniPool2Addr = address(${pool2});
+ abstract contract Addresses {
+    address constant internal TOKEN_ADDR = address(${token});
+    address constant internal UNI_POOL_1_ADDR = address(${pool1});
+    address constant internal UNI_POOL_2_ADDR = address(${pool2});
 }
 `
 }

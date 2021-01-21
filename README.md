@@ -37,10 +37,10 @@ upgrading process.
 
 ### Local testing
 
-* Launch ganache-cli:
-  > `ganache-cli`
-* In another terminal install dependencies:
+* Install dependencies:
   > `npm i`
+* In another terminal launch ganache-cli:
+  > `npm run ganache`
 * Deploy tokens and pools:
   > `npm run deploy-test`
 * Start test:

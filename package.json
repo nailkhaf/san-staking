@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "truffle compile",
-    "deploy-test": "npx truffle migrate --network development --f 1 --to 2",
-    "deploy-tokens-ropsten": "npx truffle migrate --network ropsten --f 2 --to 2",
-    "deploy-staking-ropsten": "npx truffle migrate --network ropsten --f 3 --to 3",
+    "deploy-test": "truffle migrate --network development --f 1 --to 2",
+    "deploy-tokens-ropsten": "truffle migrate --network ropsten --f 2 --to 2",
+    "deploy-staking-ropsten": "truffle migrate --network ropsten --f 3 --to 3",
+    "ganache": "ganache-cli",
     "test": "truffle test --network development"
   },
   "keywords": [],
@@ -15,6 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
+    "ganache-cli": "^6.12.2",
     "solhint": "^3.3.2",
     "truffle": "^5.1.62",
     "truffle-plugin-verify": "^0.5.4"
