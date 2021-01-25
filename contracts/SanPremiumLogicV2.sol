@@ -8,11 +8,12 @@ import "./interfaces/IUniswapV2Pair.sol";
 import "./proxy/Initializable.sol";
 import "./libraries/Ownable.sol";
 import "./Addresses.sol";
+import "./interfaces/ISanStaking.sol";
 
 /**
  * @dev San Staking contract version 1
  */
-contract SanStakingLogicV2 is Ownable, Initializable, Addresses {
+contract SanStakingLogicV2 is Ownable, Initializable, Addresses, ISanStaking {
     using SafeMath for uint256;
 
     uint256 constant private LOGIC_VERSION = 2;
@@ -50,7 +51,7 @@ contract SanStakingLogicV2 is Ownable, Initializable, Addresses {
         delete products[productId];
     }
 
-    function hasAccess(address user, uint256 productId) public view returns (bool) {
+    function hasAccess(address user, uint256 productId) public view override returns (bool) {
         Product storage product = products[productId];
         require(product.exists, "SanStakingLogicV2: Product doesn't exists");
 
@@ -60,7 +61,7 @@ contract SanStakingLogicV2 is Ownable, Initializable, Addresses {
         return tokenAmount1.add(tokenAmount2) >= product.threshold;
     }
 
-    function votes(address user) public view returns (uint256) {
+    function votes(address user) public view override returns (uint256) {
         uint256 tokenAmount1 = computeLiquidityValue(getReserve(PAIR_POOL_1), PAIR_POOL_1.totalSupply(), PAIR_POOL_1.balanceOf(user));
         uint256 tokenAmount2 = computeLiquidityValue(getReserve(PAIR_POOL_2), PAIR_POOL_2.totalSupply(), PAIR_POOL_2.balanceOf(user));
 
